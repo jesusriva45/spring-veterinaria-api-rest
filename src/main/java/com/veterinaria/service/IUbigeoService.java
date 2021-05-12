@@ -17,5 +17,11 @@ public interface IUbigeoService {
 	public abstract Ubigeo save(Ubigeo producto);
 	
 	public abstract void delete(int id);
+	
+	
+	
+	public abstract List<String> listaDepartamentos();
+	public abstract List<String> listaProvincias(String departamento);
+	public abstract List<Ubigeo> listaDistritos(String departamento, String provincia);
 
 }

@@ -41,4 +41,23 @@ public class ServiceUbigeoImpl implements IUbigeoService {
 		
 	}
 
+	//------------ LISTADO DE UBIGEO POR UBICACION EXACTA ------------
+	@Override
+	public List<String> listaDepartamentos() {
+		// TODO Auto-generated method stub
+		return ubigeoDao.listaDepartamentos();
+	}
+
+	@Override
+	public List<String> listaProvincias(String departamento) {
+		// TODO Auto-generated method stub
+		return ubigeoDao.listaProvincias(departamento);
+	}
+
+	@Override
+	public List<Ubigeo> listaDistritos(String departamento, String provincia) {
+		// TODO Auto-generated method stub
+		return ubigeoDao.listaDistritos(departamento, provincia);
+	}
+
 }

@@ -70,7 +70,7 @@ public class ServiceUsuarioImpl implements IUsuarioService, UserDetailsService{
 	public Usuario save(Usuario objUser) {
 		// TODO Auto-generated method stub
 	
-		objUser.setPassword(passwordEncoder.encode(objUser.getPassword()));
+		//objUser.setPassword(passwordEncoder.encode(objUser.getPassword()));
 		//objUser.setEstado(true);
 		
 		return usuarioDao.save(objUser);
