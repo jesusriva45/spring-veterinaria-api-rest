@@ -18,7 +18,7 @@ import com.veterinaria.entity.Usuario;
 public interface IUsuarioDao extends JpaRepository<Usuario, Integer>{
 	
 	
-	//---------- ESTADO DE USUARIO ---------------------------------
+	//---------- ESTADO DE USUARIO SIN USO---------------------------------
 	
 	@Query(value = "CALL SP_ESTADO_USUARIO(:id_user, :estado_user)", nativeQuery = true)
 	public void estadoUsuario(@Param("id_user")int id_user,@Param("estado_user")boolean estado_user);

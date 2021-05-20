@@ -63,7 +63,7 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.findAll());
 	}
 
-	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
+	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE" })
 	@GetMapping("/usuarios/{id}")
 	public ResponseEntity<Optional<Usuario>> listById(@PathVariable int id) {
 		return ResponseEntity.ok(usuarioService.findById(id));
@@ -82,7 +82,13 @@ public class UsuarioController {
 	}*/
 	
 	
-	@Secured({"ROLE_ADMIN"})
+	//------------------ REGISTRO DE USUARIO ------------------------
+	//----- POR DEFECTO SE REGISTRA COMO CLIENTE --------------------
+	/*
+	 * SERA USADO POR EL ADMIN Y CUALQUIER USUARIO QUE DESEE REGISTRARSE EN
+	 * LA PAGINA WEB COMO CLIENTE
+	 */
+	
 	@PostMapping("/usuarios")
 	public ResponseEntity<?> insert(@RequestBody Usuario obj, BindingResult result){			
 			
@@ -144,7 +150,7 @@ public class UsuarioController {
 	
 	
 
-	@Secured({ "ROLE_ADMIN" })	
+	@Secured({"ROLE_ADMIN","ROLE_VENDEDOR","ROLE_CLIENTE"})	
 	@PutMapping("/usuarios/{id}")
 	public ResponseEntity<Usuario> update(@RequestBody Usuario obj, @PathVariable int id) throws NotFoundException {
 		Usuario usuActual = usuarioService.findById(id)
@@ -165,13 +171,51 @@ public class UsuarioController {
 		usuActual.setDireccion(obj.getDireccion());
 		usuActual.setUbigeo(obj.getUbigeo());
 		usuActual.setUsername(obj.getUsername());
-		usuActual.setPassword(obj.getPassword());
+		//usuActual.setPassword(obj.getPassword());
 		//objUser.setEstado(true);
 
 		final Usuario updatedUsuario = usuarioService.save(usuActual);
 		return ResponseEntity.ok(updatedUsuario);
 	}
+	
+	
+	
+	//--------------------------- REINICIAR PASSWORD ----------------------------
+	@Secured({"ROLE_ADMIN"})	
+	@PutMapping("/usuarios/reset-pass/{id}")
+	public ResponseEntity<Usuario> resetPassword(@RequestBody Usuario obj, @PathVariable int id) throws NotFoundException {
+		Usuario usuActual = usuarioService.findById(id)
+				.orElseThrow(() -> new NotFoundException("Usuario not found for this id :: " + id));
 
+
+		//usuActual.setPassword(passwordEncoder.encode(obj.getPassword()));
+		usuActual.setPassword(passwordEncoder.encode("12345"));
+		//objUser.setEstado(true);
+
+		final Usuario updatedUsuario = usuarioService.save(usuActual);
+		return ResponseEntity.ok(updatedUsuario);
+	}
+	
+	
+	//--------------------------- ACTUALIZAR PASSWORD ----------------------------
+	@Secured({"ROLE_ADMIN","ROLE_VENDEDOR","ROLE_CLIENTE"})	
+	@PutMapping("/usuarios/pass/{id}")
+	public ResponseEntity<Usuario> updatePassword(@RequestBody Usuario obj, @PathVariable int id) throws NotFoundException {
+		Usuario usuActual = usuarioService.findById(id)
+				.orElseThrow(() -> new NotFoundException("Usuario not found for this id :: " + id));
+
+
+		//usuActual.setPassword(passwordEncoder.encode(obj.getPassword()));
+		usuActual.setPassword(passwordEncoder.encode(obj.getPassword()));
+		//objUser.setEstado(true);
+
+		final Usuario updatedUsuario = usuarioService.save(usuActual);
+		return ResponseEntity.ok(updatedUsuario);
+	}
+	
+	
+	
+	//----------------------- ELIMINAR USUARIO ------------------------
 	@Secured({ "ROLE_ADMIN" })
 	@DeleteMapping("/usuarios/{id}")
 	public void delete(@PathVariable int id) {
@@ -203,15 +247,8 @@ public class UsuarioController {
 	public ResponseEntity<Usuario> updateEstado(@RequestBody Usuario obj, @PathVariable int id) throws NotFoundException {
 		Usuario usuActual = usuarioService.findById(id)
 				.orElseThrow(() -> new NotFoundException("Usuario not found for this id :: " + id));
-
-		/*
-		 * Employee employee = employeeRepository.findById(employeeId) .orElseThrow(()
-		 * -> new ResourceNotFoundException("Employee not found for this id :: " +
-		 * employeeId));
-		 */
-
+	
 		usuActual.setEstado(obj.isEstado());
-		//objUser.setEstado(true);
 
 		final Usuario updatedUsuario = usuarioService.save(usuActual);
 		return ResponseEntity.ok(updatedUsuario);
@@ -224,7 +261,7 @@ public class UsuarioController {
 	
 	//-------------------- LISTA TODOS LOS ROLES ---------------------------------
 	
-	@Secured({  "ROLE_ADMIN" })
+	@Secured({  "ROLE_ADMIN"})
 	@GetMapping("/usuarios/rol")
 	public List<Rol> listarRoles() {
 		return usuarioService.findAllRol();
@@ -262,17 +299,8 @@ public class UsuarioController {
 	//------------------- ASIGNA UN ROL A UN USUARIO -----------------------
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/usuarios/acceso")
-	public ResponseEntity<AccesoRol> insert(@RequestBody AccesoRol obj){			
-			
-			/*for(Usuario x : usuarios) {
-				if(x.getUsername().equals(obj.getUsername())) {
-					System.out.println("Username duplicado");
-				}else {
-					return ResponseEntity.ok(usuarioService.save(x));
-				}
-			}	*/	
-		
-			//return ResponseEntity.ok(usuarioService.save(obj));	
+	public ResponseEntity<AccesoRol> insert(@RequestBody AccesoRol obj){		
+	
 			return ResponseEntity.ok(accesoService.saveRol(obj));
 	}
 	
@@ -309,62 +337,7 @@ public class UsuarioController {
 	
 	
 	
-	//-------------------- REGISTRO DE CLIENTE ---------------------------
-	
-	
-	@PostMapping("/usuarios/clientes")
-	public ResponseEntity<?> insertCliente(@RequestBody Usuario obj, BindingResult result){			
-			
-	
-		Usuario user = null;
-		
-		Map<String, Object> response = new HashMap<>();
-		
-		if(result.hasErrors()) {
 
-			List<String> errors = result.getFieldErrors()
-					.stream()
-					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
-					.collect(Collectors.toList());
-			
-			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}	
-		
-		try {
-			obj.setEstado(true);
-			user = usuarioService.save(obj);
-			
-			Rol rol = new Rol();
-			
-			AccesoRol accesoRol  =new AccesoRol();
-			
-			//Cliente cliente = new Cliente();
-			
-			accesoRol.setIdusuario(obj.getIdusuario());
-			rol.setIdrol(2);			
-			
-			accesoRol.setRol(rol);
-			
-			//cliente.setUsuario(obj);
-			
-			//clienteService.save(cliente);
-			
-			accesoService.saveRol(accesoRol);
-			
-			
-		} catch (DataAccessException  e) {
-			response.put("mensaje", "Error al realizar el insert en la base de datos");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		response.put("mensaje", "El usuario ha sido creado con éxito!");
-		response.put("usuario", user);	
-		
-		
-		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
-	}
-	
 	
 	
 	

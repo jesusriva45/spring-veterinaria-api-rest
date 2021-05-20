@@ -44,8 +44,8 @@ public interface IUsuarioService  {
 
 	
 	
-	//------------------- ACTUALIZAR ESTADO DE USUARIO -------------------
-	public abstract   void updateEstadoUser(int id_user, boolean estado_user);
+	//------------------- ACTUALIZAR ESTADO DE USUARIO SIN USO -------------------
+	public abstract void updateEstadoUser(int id_user, boolean estado_user);
 	
 	
 	

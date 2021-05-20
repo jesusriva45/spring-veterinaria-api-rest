@@ -159,6 +159,8 @@ public class ServiceUsuarioImpl implements IUsuarioService, UserDetailsService{
 	
 	
 
+	//-------------- ACTUALIZAR ESTADO USUARIO SIN USO --------------------
+	
 	@Override
 	public void updateEstadoUser(int id_user, boolean estado_user) {
 		// TODO Auto-generated method stub
