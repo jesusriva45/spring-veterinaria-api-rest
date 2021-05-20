@@ -75,8 +75,8 @@ public class UsuarioController {
 			
 			
 		
-			//return ResponseEntity.ok(usuarioService.save(obj));	
-		obj.setEstado(true);
+		//return ResponseEntity.ok(usuarioService.save(obj));	
+		 obj.setEstado(true);
 		
 			return ResponseEntity.ok(usuarioService.save(obj));
 	}*/
