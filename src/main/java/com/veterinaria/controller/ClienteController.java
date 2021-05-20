@@ -47,7 +47,7 @@ public class ClienteController {
 	
 	
 	
-	
+	//--- Prueba ---
 	//-------------------- REGISTRO DE CLIENTE ---------------------------
 	
 	
