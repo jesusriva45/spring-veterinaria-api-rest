@@ -32,9 +32,13 @@ public class Pedido {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
 	private List<DetallePedidoProducto> detallesProducto;
 
+	//listado del detalle del servicio
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
+	private List<DetallePedidoServicio> detallePedidoServicio;
 	
 	
 	
+
 	public int getIdpedido() {
 		return idpedido;
 	}
@@ -67,6 +71,12 @@ public class Pedido {
 		this.detallesProducto = detallesProducto;
 	}
 	
-	
+	public List<DetallePedidoServicio> getDetallePedidoServicio() {
+		return detallePedidoServicio;
+	}
+
+	public void setDetallePedidoServicio(List<DetallePedidoServicio> detallePedidoServicio) {
+		this.detallePedidoServicio = detallePedidoServicio;
+	}
 
 }
