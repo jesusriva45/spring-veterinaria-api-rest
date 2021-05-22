@@ -11,7 +11,7 @@ public interface IDetallePedidoProductoDao extends JpaRepository<DetallePedidoPr
 	
 
 	@Modifying
-	@Query("update Producto p set p.stock = p.stock - :can where p.idProducto = :pro")
+	@Query("update Producto p set p.stock = p.stock - :can where p.idproducto = :pro")
 	public abstract void actualizaStock(@Param("can")int cantidad, @Param("pro")int idProducto);
 
 }

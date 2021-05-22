@@ -4,6 +4,7 @@ package com.veterinaria.entity;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
 
+@Entity
 @Table(name="pedido")
 public class Pedido {
 	
@@ -25,8 +29,10 @@ public class Pedido {
 	@Column(name = "fecha_pedido")
 	private String fecha_pedido;
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "idusuario", nullable = false)
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idusuario")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Usuario usuario;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
