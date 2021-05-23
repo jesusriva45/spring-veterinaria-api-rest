@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.veterinaria.entity.DetallePedidoProducto;
 import com.veterinaria.entity.DetallePedidoProductoPK;
 import com.veterinaria.entity.Pedido;
+import com.veterinaria.entity.PruebaProducUser;
 import com.veterinaria.entity.SeleccionProducto;
 import com.veterinaria.entity.SeleccionServicio;
 import com.veterinaria.entity.Usuario;
@@ -149,17 +150,19 @@ public class PedidoController {
 	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE" })
 	//@GetMapping("/usuarios/{id}")
 	@PostMapping("/pedidos")
-	public ResponseEntity<?> registrarPedido(@RequestBody Usuario usuario, @RequestBody List<DetallePedidoProducto> seleccion,  BindingResult result){
+	@ResponseStatus(HttpStatus.CREATED)
+	public Pedido registrarPedido(@RequestBody Pedido ped,  BindingResult result){
 		
 			
-		Map<String, Object> response = new HashMap<>();
+		//Map<String, Object> response = new HashMap<>();
 		
 		List<DetallePedidoProducto> detalles = new ArrayList<DetallePedidoProducto>();
 		
-		for (DetallePedidoProducto x : seleccion) {
+		for (DetallePedidoProducto x : ped.getDetallesProducto()) {
 			DetallePedidoProductoPK pk = new DetallePedidoProductoPK();		
 			
 			pk.setIdproducto(x.getProducto().getIdproducto());
+			//pk.setIdpedido(2);
 
 			DetallePedidoProducto detail = new DetallePedidoProducto();
 			detail.setCantidad(x.getCantidad());
@@ -179,13 +182,13 @@ public class PedidoController {
 		
 		Pedido pedido = new Pedido();
 		
-		pedido.setUsuario(usuario);
+		pedido.setUsuario(ped.getUsuario());
 		pedido.setDetallesProducto(detalles);
 		
-		pedidoService.insertaPedidoProducto(pedido);
+		//pedidoService.insertaPedidoProducto(pedido);
 		
 		
-		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
+		return pedidoService.insertaPedidoProducto(pedido);
 		
 	}
 	

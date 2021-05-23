@@ -37,14 +37,14 @@ public class DetallePedidoProducto implements Serializable{
 	
 	//@JsonManagedReference NO VALIDO
 	@JsonBackReference(value="detallesProducto")
-	@JoinColumn(name = "idpedido", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idpedido", referencedColumnName = "idpedido",nullable = false, insertable = false, updatable = false)
 	@ManyToOne(optional = false)	
 	private Pedido pedido;
 	
 	//@JsonManagedReference	 VALIDO
 	
 	@ManyToOne(optional = false)	
-	@JoinColumn(name = "idproducto", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idproducto", referencedColumnName = "idproducto", nullable = false, insertable = false, updatable = false)
 	private Producto producto;
 
 	

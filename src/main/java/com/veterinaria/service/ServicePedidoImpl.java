@@ -29,12 +29,13 @@ public class ServicePedidoImpl implements IPedidoService {
 	@Override
 	@Transactional
 	public Pedido insertaPedidoProducto(Pedido obj) {
-		/*Pedido cabecera = pedidoRepository.save(obj);
+		Pedido cabecera = pedidoRepository.save(obj);
 		for (DetallePedidoProducto d : cabecera.getDetallesProducto()) {
-			d.getPedido().setIdpedido(cabecera.getIdpedido());
-			detalleProductoRepository.actualizaStock(d.getCantidad(), d.getProducto().getIdproducto());
+			
+			d.getDetallePedidoProductoPK().setIdpedido(cabecera.getIdpedido());
+			//detalleProductoRepository.actualizaStock(d.getCantidad(), d.getProducto().getIdproducto());
 			detalleProductoRepository.save(d);
-		}*/
+		}
 		return null ;
 	}
 

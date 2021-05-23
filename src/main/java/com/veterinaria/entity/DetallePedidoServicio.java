@@ -32,11 +32,11 @@ public class DetallePedidoServicio implements Serializable{
 	
 	@JsonBackReference(value="detallePedidoServicio")
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "idpedido", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idpedido", referencedColumnName = "idpedido", nullable = false, insertable = false, updatable = false)
 	private Pedido pedido;
 	
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "idservicio", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idservicio", referencedColumnName = "idservicio", nullable = false, insertable = false, updatable = false)
 	private Servicio servicio;
 	
 	
@@ -48,7 +48,7 @@ public class DetallePedidoServicio implements Serializable{
 	public void setDetallePedidoServicioPK(DetallePedidoServicioPK detallePedidoServicioPK) {
 		this.detallePedidoServicioPK = detallePedidoServicioPK;
 	}
-
+//
 	public Date getFechaAtencion() {
 		return fechaAtencion;
 	}

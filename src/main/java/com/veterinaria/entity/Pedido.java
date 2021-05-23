@@ -14,15 +14,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
@@ -58,6 +57,7 @@ public class Pedido implements Serializable{
 	//@JsonManagedReference
 	@JsonManagedReference(value="detallesProducto")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
+	//@MapKey(name = "pedido")
 	private List<DetallePedidoProducto> detallesProducto;
 
 	//listado del detalle del servicio
@@ -65,6 +65,7 @@ public class Pedido implements Serializable{
 	//@JsonManagedReference	 VALIDO
 	@JsonManagedReference(value="detallePedidoServicio")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
+	//@MapKey(name = "id")
 	private List<DetallePedidoServicio> detallePedidoServicio;
 	
 	
