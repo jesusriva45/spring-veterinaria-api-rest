@@ -13,12 +13,15 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.veterinaria.entity.DetallePedidoProducto;
 import com.veterinaria.entity.Pedido;
 import com.veterinaria.entity.SeleccionProducto;
 import com.veterinaria.entity.SeleccionServicio;
@@ -29,7 +32,7 @@ import com.veterinaria.service.IUsuarioService;
 
 
 @CrossOrigin(origins = { "http://localhost:4200" })
-@Controller
+@RestController
 @RequestMapping("/api")
 public class PedidoController {
 	
@@ -125,10 +128,19 @@ public class PedidoController {
 	
 	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE" })
 	//@GetMapping("/usuarios/{id}")
-	@RequestMapping("/pedido/{id}")
-	@ResponseBody
-	public ResponseEntity<Optional<Pedido>> listById(@PathVariable int id) {
-		return ResponseEntity.ok(pedidoService.findById(id));
+	@GetMapping("/pedidos/{id}")
+	//@GetMapping("/facturas/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<?> listById(@PathVariable int id) {
+		
+		Optional<Pedido> pedido = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		pedido =  pedidoService.findById(id);
+		
+		response.put("PEDIDO",pedido);
+		
+		return ResponseEntity.ok(pedido);
 	}
 	
 	
@@ -142,10 +154,18 @@ public class PedidoController {
 		
 		Map<String, Object> response = new HashMap<>();
 		
+		List<DetallePedidoProducto> detalles = new ArrayList<DetallePedidoProducto>();
+		
+		Pedido pedido = new Pedido();
+		
+		pedido.setDetallesProducto(detalles);
+		
 		
 		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
 		
 	}
+	
+	
 	
 	
 	

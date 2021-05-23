@@ -1,5 +1,6 @@
 package com.veterinaria.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,7 +12,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "detalle_pedido_servicio")
-public class DetallePedidoServicio {
+public class DetallePedidoServicio implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	@EmbeddedId
 	private DetallePedidoServicioPK detallePedidoServicioPK;

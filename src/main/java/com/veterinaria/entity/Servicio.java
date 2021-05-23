@@ -1,7 +1,6 @@
 package com.veterinaria.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,10 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
+
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
@@ -47,8 +45,8 @@ public class Servicio implements Serializable{
 	private String descripcion;
 	
 	@Column(name="fecha_atencion")
-	@Temporal(TemporalType.DATE)
-	private Date fecha_atencion;
+	
+	private String fecha_atencion;
 	
 	/*Muchos usuarios en Una Region - Muchos --> 1*/
 	@NotNull
@@ -59,11 +57,6 @@ public class Servicio implements Serializable{
 	private SerCategoria serCategoria;
 	
 	
-	
-	@PrePersist
-	public void prePersist() {
-		fecha_atencion=new Date();
-	}
 
 	
 	
@@ -126,11 +119,11 @@ public class Servicio implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	public Date getFecha_atencion() {
+	public String getFecha_atencion() {
 		return fecha_atencion;
 	}
 
-	public void setFecha_atencion(Date fecha_atencion) {
+	public void setFecha_atencion(String fecha_atencion) {
 		this.fecha_atencion = fecha_atencion;
 	}
 

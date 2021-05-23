@@ -6,6 +6,8 @@ package com.veterinaria.entity;
 
 
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,9 +27,15 @@ import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "producto")
-public class Producto {
+public class Producto implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	@Column(name = "idproducto")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

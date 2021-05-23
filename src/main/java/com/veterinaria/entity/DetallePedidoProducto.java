@@ -1,6 +1,9 @@
 package com.veterinaria.entity;
 
 
+import java.io.Serializable;
+
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -10,11 +13,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name= "detalle_pedido_producto")
-public class DetallePedidoProducto {
+public class DetallePedidoProducto implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	@EmbeddedId
 	private DetallePedidoProductoPK detallePedidoProductoPK;
 	
@@ -25,15 +35,16 @@ public class DetallePedidoProducto {
 	@Column(length = 10)
 	private int cantidad;
 	
-	//@ManyToOne(optional = false)
-	@JoinColumn(name = "idpedido", nullable = false, insertable = false, updatable = false)
+	
+	//@JsonManagedReference NO VALIDO
 	@JsonBackReference
-	@ManyToOne(optional = false)
+	@JoinColumn(name = "idpedido", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(optional = false)	
 	private Pedido pedido;
 	
+	//@JsonManagedReference	 VALIDO
 	
-	@ManyToOne(optional = false)
-	@JsonBackReference
+	@ManyToOne(optional = false)	
 	@JoinColumn(name = "idproducto", nullable = false, insertable = false, updatable = false)
 	private Producto producto;
 
@@ -80,6 +91,45 @@ public class DetallePedidoProducto {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((detallePedidoProductoPK == null) ? 0 : detallePedidoProductoPK.hashCode());
+		result = prime * result + ((pedido == null) ? 0 : pedido.hashCode());
+		result = prime * result + ((producto == null) ? 0 : producto.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DetallePedidoProducto other = (DetallePedidoProducto) obj;
+		if (detallePedidoProductoPK == null) {
+			if (other.detallePedidoProductoPK != null)
+				return false;
+		} else if (!detallePedidoProductoPK.equals(other.detallePedidoProductoPK))
+			return false;
+		if (pedido == null) {
+			if (other.pedido != null)
+				return false;
+		} else if (!pedido.equals(other.pedido))
+			return false;
+		if (producto == null) {
+			if (other.producto != null)
+				return false;
+		} else if (!producto.equals(other.producto))
+			return false;
+		return true;
+	}
+
+	
 
 	
 	

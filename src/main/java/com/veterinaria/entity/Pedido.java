@@ -2,6 +2,7 @@ package com.veterinaria.entity;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
@@ -43,16 +46,25 @@ public class Pedido implements Serializable{
 	private Usuario usuario;
 	
 	//listado del detalle del producto
+	
+	//@JsonManagedReference	 VALIDO
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
 	private List<DetallePedidoProducto> detallesProducto;
 
 	//listado del detalle del servicio
+	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	//@JsonManagedReference	 VALIDO
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
 	private List<DetallePedidoServicio> detallePedidoServicio;
 	
 	
+	public Pedido() {
+		detallesProducto = new ArrayList<>();
+		
+		detallePedidoServicio = new ArrayList<>();		
+	}
 	
 
 	public int getIdpedido() {
