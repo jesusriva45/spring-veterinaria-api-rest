@@ -3,6 +3,7 @@ package com.veterinaria.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,7 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,8 +40,11 @@ public class Pedido implements Serializable{
 	@Column(unique = true, nullable = false, length = 10)
 	private int idpedido;
 	
+	
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_pedido")
-	private String fecha_pedido;
+	private Date fecha_pedido;
 	
 	@NotNull
 	@ManyToOne(optional = false)
@@ -48,16 +55,25 @@ public class Pedido implements Serializable{
 	//listado del detalle del producto
 	
 	//@JsonManagedReference	 VALIDO
-	@JsonManagedReference
+	//@JsonManagedReference
+	@JsonManagedReference(value="detallesProducto")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
 	private List<DetallePedidoProducto> detallesProducto;
 
 	//listado del detalle del servicio
 	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	//@JsonManagedReference	 VALIDO
-	@JsonManagedReference
+	@JsonManagedReference(value="detallePedidoServicio")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
 	private List<DetallePedidoServicio> detallePedidoServicio;
+	
+	
+	
+	@PrePersist
+	public void prePersist() {
+		fecha_pedido = new Date();
+	}
+
 	
 	
 	public Pedido() {
@@ -75,11 +91,15 @@ public class Pedido implements Serializable{
 		this.idpedido = idpedido;
 	}
 
-	public String getFecha_pedido() {
+	@SuppressWarnings("deprecation")
+	public Date getFecha_pedido() {
+		
+		fecha_pedido.setHours(fecha_pedido.getHours()-7);
+		
 		return fecha_pedido;
 	}
 
-	public void setFecha_pedido(String fecha_pedido) {
+	public void setFecha_pedido(Date fecha_pedido) {
 		this.fecha_pedido = fecha_pedido;
 	}
 

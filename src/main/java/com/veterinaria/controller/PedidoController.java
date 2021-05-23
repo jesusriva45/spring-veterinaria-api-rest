@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.veterinaria.entity.DetallePedidoProducto;
+import com.veterinaria.entity.DetallePedidoProductoPK;
 import com.veterinaria.entity.Pedido;
 import com.veterinaria.entity.SeleccionProducto;
 import com.veterinaria.entity.SeleccionServicio;
@@ -144,21 +146,43 @@ public class PedidoController {
 	}
 	
 	
-	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE" })
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE" })
 	//@GetMapping("/usuarios/{id}")
-	@RequestMapping("/pedidos")
-	@ResponseBody
-	public ResponseEntity<?> registrarPedido(@RequestBody Usuario obj, BindingResult result){
+	@PostMapping("/pedidos")
+	public ResponseEntity<?> registrarPedido(@RequestBody Usuario usuario, @RequestBody List<DetallePedidoProducto> seleccion,  BindingResult result){
 		
-		Usuario user = null;
-		
+			
 		Map<String, Object> response = new HashMap<>();
 		
 		List<DetallePedidoProducto> detalles = new ArrayList<DetallePedidoProducto>();
 		
+		for (DetallePedidoProducto x : seleccion) {
+			DetallePedidoProductoPK pk = new DetallePedidoProductoPK();		
+			
+			pk.setIdproducto(x.getProducto().getIdproducto());
+
+			DetallePedidoProducto detail = new DetallePedidoProducto();
+			detail.setCantidad(x.getCantidad());
+			detail.setPrecio(x.getPrecio());
+			detail.setDetallePedidoProductoPK(pk);
+
+			detalles.add(detail);
+		}
+		
+		
+		/*
+		 * Boleta objBoleta = new Boleta();
+		objBoleta.setCliente(objCliente);
+		objBoleta.setUsuario(objUsuario);
+		objBoleta.setDetallesBoleta(detalles);
+		 * */
+		
 		Pedido pedido = new Pedido();
 		
+		pedido.setUsuario(usuario);
 		pedido.setDetallesProducto(detalles);
+		
+		pedidoService.insertaPedidoProducto(pedido);
 		
 		
 		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);

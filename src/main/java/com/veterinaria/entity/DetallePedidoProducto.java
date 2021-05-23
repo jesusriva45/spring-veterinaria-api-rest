@@ -7,13 +7,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name= "detalle_pedido_producto")
@@ -37,7 +36,7 @@ public class DetallePedidoProducto implements Serializable{
 	
 	
 	//@JsonManagedReference NO VALIDO
-	@JsonBackReference
+	@JsonBackReference(value="detallesProducto")
 	@JoinColumn(name = "idpedido", nullable = false, insertable = false, updatable = false)
 	@ManyToOne(optional = false)	
 	private Pedido pedido;

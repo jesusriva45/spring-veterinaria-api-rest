@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "detalle_pedido_servicio")
 public class DetallePedidoServicio implements Serializable{
@@ -28,6 +30,7 @@ public class DetallePedidoServicio implements Serializable{
 	private Date fechaAtencion;
 	
 	
+	@JsonBackReference(value="detallePedidoServicio")
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "idpedido", nullable = false, insertable = false, updatable = false)
 	private Pedido pedido;
