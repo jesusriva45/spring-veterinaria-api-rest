@@ -1,18 +1,36 @@
 package com.veterinaria.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.veterinaria.entity.Pedido;
 import com.veterinaria.entity.SeleccionProducto;
 import com.veterinaria.entity.SeleccionServicio;
+import com.veterinaria.entity.Usuario;
 import com.veterinaria.service.IPedidoService;
 import com.veterinaria.service.IProductoService;
 import com.veterinaria.service.IUsuarioService;
 
+
+@CrossOrigin(origins = { "http://localhost:4200" })
+@Controller
+@RequestMapping("/api")
 public class PedidoController {
 	
 	@Autowired
@@ -103,6 +121,31 @@ public class PedidoController {
 		return seleccionaS;
 	}
 	
+	
+	
+	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE" })
+	//@GetMapping("/usuarios/{id}")
+	@RequestMapping("/pedido/{id}")
+	@ResponseBody
+	public ResponseEntity<Optional<Pedido>> listById(@PathVariable int id) {
+		return ResponseEntity.ok(pedidoService.findById(id));
+	}
+	
+	
+	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE" })
+	//@GetMapping("/usuarios/{id}")
+	@RequestMapping("/pedidos")
+	@ResponseBody
+	public ResponseEntity<?> registrarPedido(@RequestBody Usuario obj, BindingResult result){
+		
+		Usuario user = null;
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		
+		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
+		
+	}
 	
 	
 	

@@ -16,13 +16,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
@@ -89,6 +90,13 @@ public class Usuario implements Serializable {
 	uniqueConstraints = {@UniqueConstraint(columnNames = {"idusuario","idrol"})})
 	private List<Rol> rol;
 
+	
+	//@JsonIgnore
+	//@OneToMany(mappedBy = "usuario")
+	@JsonIgnoreProperties(value={"usuario", "hibernateLazyInitializer", "handler"}, allowSetters=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Pedido> pedidos;
+	
 	// -----------------------------------
 
 	@PrePersist
@@ -104,6 +112,14 @@ public class Usuario implements Serializable {
 
 	public List<Rol> getRol() {
 		return rol;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	public void setRol(List<Rol> rol) {

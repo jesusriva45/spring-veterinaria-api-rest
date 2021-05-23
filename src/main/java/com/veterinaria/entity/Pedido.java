@@ -1,6 +1,7 @@
 package com.veterinaria.entity;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,12 +16,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 @Entity
 @Table(name="pedido")
-public class Pedido {
+public class Pedido implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false, length = 10)
@@ -30,15 +37,18 @@ public class Pedido {
 	private String fecha_pedido;
 	
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "idusuario")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Usuario usuario;
 	
+	//listado del detalle del producto
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
 	private List<DetallePedidoProducto> detallesProducto;
 
 	//listado del detalle del servicio
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
 	private List<DetallePedidoServicio> detallePedidoServicio;
 	

@@ -1,8 +1,11 @@
 package com.veterinaria.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.veterinaria.dao.IDetallePedidoProductoDao;
 import com.veterinaria.dao.IDetallePedidoServicioDao;
@@ -11,6 +14,7 @@ import com.veterinaria.entity.DetallePedidoProducto;
 import com.veterinaria.entity.DetallePedidoServicio;
 import com.veterinaria.entity.Pedido;
 
+@Service
 public class ServicePedidoImpl implements IPedidoService {
 	
 	@Autowired
@@ -47,6 +51,15 @@ public class ServicePedidoImpl implements IPedidoService {
 		}
 		
 		return ped;
+	}
+
+
+
+	@Override
+	@Transactional
+	public Optional<Pedido> findById(int id) {
+		// TODO Auto-generated method stub
+		return pedidoRepository.findById(id);
 	}
 
 }
