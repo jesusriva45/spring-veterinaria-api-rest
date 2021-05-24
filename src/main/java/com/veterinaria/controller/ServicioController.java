@@ -30,13 +30,13 @@ public class ServicioController {
 	@Autowired
 	private IServicioService servicioService;
 
-	
+	//@Secured({"ROLE_ADMIN"})
 	@GetMapping("/servicios")
 	public List<Servicio> listAll() {
 		return servicioService.findAll();
 	}
 
-	
+	//@Secured({"ROLE_ADMIN"})
 	@GetMapping("/servicios/{id}")
 	public ResponseEntity<Optional<Servicio>> listById(@PathVariable int id) {
 		return ResponseEntity.ok(servicioService.findById(id));

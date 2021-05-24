@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.veterinaria.entity.DetallePedidoProducto;
 import com.veterinaria.entity.DetallePedidoProductoPK;
 import com.veterinaria.entity.Pedido;
-import com.veterinaria.entity.PruebaProducUser;
+
 import com.veterinaria.entity.SeleccionProducto;
 import com.veterinaria.entity.SeleccionServicio;
-import com.veterinaria.entity.Usuario;
+
 import com.veterinaria.service.IPedidoService;
 import com.veterinaria.service.IProductoService;
 import com.veterinaria.service.IUsuarioService;
