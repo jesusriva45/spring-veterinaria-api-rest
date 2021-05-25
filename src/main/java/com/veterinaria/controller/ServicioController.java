@@ -22,7 +22,7 @@ import com.veterinaria.service.IServicioService;
 
 import javassist.NotFoundException;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200","*" })
 @RestController
 @RequestMapping("/servicio")
 public class ServicioController {

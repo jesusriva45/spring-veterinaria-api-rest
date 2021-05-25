@@ -19,7 +19,7 @@ import com.veterinaria.service.IUbigeoService;
 
 
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"http://localhost:4200","*"})
 @RestController
 @RequestMapping("/api")
 public class UbigeoController {
