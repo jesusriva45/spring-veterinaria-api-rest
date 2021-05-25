@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import com.veterinaria.dao.IDetallePedidoProductoDao;
 import com.veterinaria.dao.IDetallePedidoServicioDao;
 import com.veterinaria.dao.IPedidoRepositoryDao;
+import com.veterinaria.dao.ITrackingDao;
 import com.veterinaria.entity.DetallePedidoProducto;
 import com.veterinaria.entity.DetallePedidoServicio;
+import com.veterinaria.entity.Estado;
 import com.veterinaria.entity.Pedido;
+import com.veterinaria.entity.Tracking;
 
 @Service
 public class ServicePedidoImpl implements IPedidoService {
@@ -25,35 +28,40 @@ public class ServicePedidoImpl implements IPedidoService {
 	
 	@Autowired
 	private IDetallePedidoServicioDao detalleServicioDao;
+	
+	@Autowired
+	private ITrackingDao trackingDao;
 
 	@Override
 	@Transactional
-	public Pedido insertaPedidoProducto(Pedido obj) {
+	public Pedido insertaPedido(Pedido obj) {
 		Pedido cabecera = pedidoRepository.save(obj);
+		
+		Estado est = new Estado();
+		
+		est.setIdestado(1);
+		
+		Tracking tracking = new Tracking();
+		tracking.setPedido(cabecera);
+		tracking.setEstado(est);
+		
+		trackingDao.save(tracking);
+		
 		for (DetallePedidoProducto d : cabecera.getDetallesProducto()) {
 			
 			d.getDetallePedidoProductoPK().setIdpedido(cabecera.getIdpedido());
 			//detalleProductoRepository.actualizaStock(d.getCantidad(), d.getProducto().getIdproducto());
 			detalleProductoRepository.save(d);
 		}
-		return null ;
-	}
-
-	
-	
-	@Override
-	public Pedido insertaPedidoServicio(Pedido obj) {
-		Pedido ped = pedidoRepository.save(obj);
-		
-		for (DetallePedidoServicio d : ped.getDetallePedidoServicio()) {
-			d.getDetallePedidoServicioPK().setIdPedido(ped.getIdpedido());
+		for (DetallePedidoServicio d : cabecera.getDetallePedidoServicio()) {
+			d.getDetallePedidoServicioPK().setIdPedido(cabecera.getIdpedido());
 			//detalleServicioDao.actualizaStock(d.getCantidad(), d.getProductoHasBoletaPK().getIdProducto());
 			detalleServicioDao.save(d);
 		}
-		
-		return ped;
+		return cabecera ;
 	}
 
+	
 
 
 	@Override

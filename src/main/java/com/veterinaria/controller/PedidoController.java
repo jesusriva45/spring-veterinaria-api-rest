@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.veterinaria.entity.DetallePedidoProducto;
 import com.veterinaria.entity.DetallePedidoProductoPK;
+import com.veterinaria.entity.DetallePedidoServicio;
+import com.veterinaria.entity.DetallePedidoServicioPK;
 import com.veterinaria.entity.Pedido;
 
 import com.veterinaria.entity.SeleccionProducto;
@@ -156,7 +158,7 @@ public class PedidoController {
 			
 		//Map<String, Object> response = new HashMap<>();
 		
-		List<DetallePedidoProducto> detalles = new ArrayList<DetallePedidoProducto>();
+		List<DetallePedidoProducto> detalleProducto = new ArrayList<DetallePedidoProducto>();
 		
 		for (DetallePedidoProducto x : ped.getDetallesProducto()) {
 			DetallePedidoProductoPK pk = new DetallePedidoProductoPK();		
@@ -169,7 +171,23 @@ public class PedidoController {
 			detail.setPrecio(x.getPrecio());
 			detail.setDetallePedidoProductoPK(pk);
 
-			detalles.add(detail);
+			detalleProducto.add(detail);
+		}
+		
+		List<DetallePedidoServicio> detalleServicio = new ArrayList<DetallePedidoServicio>();
+		
+		for (DetallePedidoServicio x : ped.getDetallePedidoServicio()) {
+			DetallePedidoServicioPK pk = new DetallePedidoServicioPK();		
+			
+			//System.out.println("fechaaa "+ped.getDetallePedidoServicio().get(1).getFechaAtencion());
+			pk.setIdServicio(x.getServicio().getIdservicio());
+			//pk.setIdpedido(2);
+			DetallePedidoServicio detail = new DetallePedidoServicio();
+			detail.setFecha_atencion(x.getFecha_atencion());
+			detail.setCantidad(x.getCantidad());
+			detail.setPrecio(x.getPrecio());
+			detail.setDetallePedidoServicioPK(pk);
+			detalleServicio.add(detail);
 		}
 		
 		
@@ -183,12 +201,18 @@ public class PedidoController {
 		Pedido pedido = new Pedido();
 		
 		pedido.setUsuario(ped.getUsuario());
-		pedido.setDetallesProducto(detalles);
+		//if(detalleProducto != null) {			
+			pedido.setDetallesProducto(detalleProducto);
+		//}else if() {
+			pedido.setDetallePedidoServicio(detalleServicio);
+		//}
 		
 		//pedidoService.insertaPedidoProducto(pedido);
+			//pedidoService.insertaPedidoServicio(pedido);
+			pedidoService.insertaPedido(pedido);
+			
 		
-		
-		return pedidoService.insertaPedidoProducto(pedido);
+		return pedido;
 		
 	}
 	

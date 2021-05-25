@@ -12,30 +12,30 @@ public class DetallePedidoServicioPK implements Serializable{
 	
 	
 	@Column(name = "idpedido", unique = true, nullable = false, length = 10, insertable = true, updatable = false)
-	private int idPedido;
+	private int idpedido;
 	
 	
 	@Column(name = "idservicio", unique = true, nullable = false, length = 10, insertable = true, updatable = false)
-	private int idServicio;
+	private int idservicio;
 
 
 	public int getIdPedido() {
-		return idPedido;
+		return idpedido;
 	}
 
 
 	public void setIdPedido(int idPedido) {
-		this.idPedido = idPedido;
+		this.idpedido = idPedido;
 	}
 
 
 	public int getIdServicio() {
-		return idServicio;
+		return idservicio;
 	}
 
 
 	public void setIdServicio(int idServicio) {
-		this.idServicio = idServicio;
+		this.idservicio = idServicio;
 	}
 
 

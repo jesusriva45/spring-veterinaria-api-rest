@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,9 +27,16 @@ public class DetallePedidoServicio implements Serializable{
 	@EmbeddedId
 	private DetallePedidoServicioPK detallePedidoServicioPK;
 	
+
+	@Column(name = "precio",precision = 22)
+	private double precio;
 	
-	@Column(name = "fecha_atencion")
-	private Date fechaAtencion;
+	@Column(name = "cantidad", length = 10)
+	private int cantidad;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fecha_atencion")	
+	private Date fecha_atencion;	
 	
 	
 	@JsonBackReference(value="detallePedidoServicio")
@@ -49,13 +58,35 @@ public class DetallePedidoServicio implements Serializable{
 		this.detallePedidoServicioPK = detallePedidoServicioPK;
 	}
 //
-	public Date getFechaAtencion() {
-		return fechaAtencion;
+	
+	
+	
+	
+
+	public double getPrecio() {
+		return precio;
 	}
 
-	public void setFechaAtencion(Date fechaAtencion) {
-		this.fechaAtencion = fechaAtencion;
+	public Date getFecha_atencion() {
+		return fecha_atencion;
 	}
+
+	public void setFecha_atencion(Date fecha_atencion) {
+		this.fecha_atencion = fecha_atencion;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
 
 	public Pedido getPedido() {
 		return pedido;
