@@ -63,7 +63,7 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.findAll());
 	}
 
-	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE" })
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE" })
 	@GetMapping("/usuarios/{id}")
 	public ResponseEntity<Optional<Usuario>> listById(@PathVariable int id) {
 		return ResponseEntity.ok(usuarioService.findById(id));

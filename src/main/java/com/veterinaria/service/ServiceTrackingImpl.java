@@ -35,6 +35,18 @@ public class ServiceTrackingImpl implements ITrackingService{
 		// TODO Auto-generated method stub
 		return trakingDao.findByIdPedido(id_ped);
 	}
+
+	@Override
+	public Tracking update(Tracking track) {
+		// TODO Auto-generated method stub
+		return trakingDao.save(track);
+	}
+
+	@Override
+	public List<Tracking> findAll() {
+		// TODO Auto-generated method stub
+		return trakingDao.findAll();
+	}
 	
 
 }

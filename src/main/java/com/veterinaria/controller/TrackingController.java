@@ -9,12 +9,17 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.veterinaria.entity.Estado;
 import com.veterinaria.entity.Tracking;
+import com.veterinaria.entity.Usuario;
 import com.veterinaria.service.ITrackingService;
+
+import javassist.NotFoundException;
 
 @CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app" })
 @RestController
@@ -40,6 +45,26 @@ public class TrackingController {
 		return trackingService.listEstado();
 	}
 	
+	
+	@Secured({ "ROLE_ADMIN" })
+	@PutMapping("/tracking/{id}")
+	public Tracking update(@RequestBody Tracking track,  @PathVariable int id) throws NotFoundException {
+		
+		Tracking trackActual = trackingService.findById(id).
+				orElseThrow(() -> new NotFoundException(""+ id));
+		
+		
+		trackActual.setEstado(track.getEstado());
+		
+		
+		return trackingService.update(track);
+	}
+	
+	@Secured({ "ROLE_ADMIN" })
+	@GetMapping("/tracking")
+	public ResponseEntity<List<Tracking>> listAll() {
+		return ResponseEntity.ok(trackingService.findAll());
+	}
 	
 	
 	
