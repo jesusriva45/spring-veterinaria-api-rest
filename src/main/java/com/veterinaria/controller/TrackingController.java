@@ -16,7 +16,7 @@ import com.veterinaria.entity.Estado;
 import com.veterinaria.entity.Tracking;
 import com.veterinaria.service.ITrackingService;
 
-@CrossOrigin(origins = { "http://localhost:4200","*" })
+@CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app" })
 @RestController
 @RequestMapping("/api")
 public class TrackingController {
