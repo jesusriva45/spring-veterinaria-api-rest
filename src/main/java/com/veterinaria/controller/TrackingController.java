@@ -21,7 +21,7 @@ import com.veterinaria.service.ITrackingService;
 
 import javassist.NotFoundException;
 
-@CrossOrigin(origins = { "*" })
+@CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app","https://patazasvet.web.app" })
 @RestController
 @RequestMapping("/api")
 public class TrackingController {

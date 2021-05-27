@@ -37,7 +37,7 @@ import com.veterinaria.service.IUsuarioService;
 import javassist.NotFoundException;
 
 //@PreAuthorize("hasAnyRole({'ROL_VENDEDOR',''})")
-@CrossOrigin(origins = { "*" })
+@CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app","https://patazasvet.web.app" })
 @RestController
 @RequestMapping("/api")
 public class UsuarioController {
