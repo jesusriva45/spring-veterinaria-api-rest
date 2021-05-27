@@ -29,7 +29,7 @@ import com.veterinaria.service.IUsuarioService;
 
 import javassist.NotFoundException;
 
-@CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app" })
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/api")
 public class ClienteController {

@@ -36,7 +36,7 @@ import com.veterinaria.service.IProductoService;
 import com.veterinaria.service.IUsuarioService;
 
 
-@CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app" })
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/api")
 public class PedidoController {
