@@ -3,9 +3,6 @@ package com.veterinaria.service;
 import java.util.List;
 import java.util.Optional;
 
-
-
-
 import com.veterinaria.entity.Mascota;
 import com.veterinaria.entity.TipoMascota;
 

@@ -14,17 +14,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 //import com.veterinaria.dao.IAccesoRolDao;
 import com.veterinaria.dao.IRolDao;
 import com.veterinaria.dao.IUsuarioDao;
 import com.veterinaria.entity.AccesoRol;
-
 import com.veterinaria.entity.Rol;
 import com.veterinaria.entity.Ubigeo;
 import com.veterinaria.entity.Usuario;
@@ -50,7 +47,7 @@ public class ServiceUsuarioImpl implements IUsuarioService, UserDetailsService{
 	@Transactional(readOnly = true)
 	public List<Usuario> findAll() {
 		// TODO Auto-generated method stub
-		return  (List<Usuario>) usuarioDao.findAll();
+		return  usuarioDao.findAll();
 	}
 
 	@Override

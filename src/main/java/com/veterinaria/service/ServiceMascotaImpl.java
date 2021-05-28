@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.veterinaria.dao.IMascotaDao;
-
 import com.veterinaria.entity.Mascota;
 import com.veterinaria.entity.TipoMascota;
 
@@ -22,7 +21,7 @@ public class ServiceMascotaImpl implements IMascotaService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Mascota> findAll() {
-		return (List<Mascota>) mascotaDao.findAll();
+		return mascotaDao.findAll();
 	}
 
 	@Override

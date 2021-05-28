@@ -1,9 +1,7 @@
 package com.veterinaria.auth;
 
 import java.util.HashMap;
-
 import java.util.Map;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -12,9 +10,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
-
 import com.veterinaria.entity.Usuario;
-
 import com.veterinaria.service.IUsuarioService;
 
 @Component

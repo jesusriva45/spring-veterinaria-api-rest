@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.veterinaria.entity.Tracking;
 import com.veterinaria.entity.Estado;
+import com.veterinaria.entity.Tracking;
 
 public interface ITrackingDao extends JpaRepository<Tracking, Integer>{
 	

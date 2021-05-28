@@ -1,7 +1,6 @@
 package com.veterinaria.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.veterinaria.entity.Estado;
 import com.veterinaria.entity.Tracking;
-import com.veterinaria.entity.Usuario;
 import com.veterinaria.service.ITrackingService;
 
 import javassist.NotFoundException;
