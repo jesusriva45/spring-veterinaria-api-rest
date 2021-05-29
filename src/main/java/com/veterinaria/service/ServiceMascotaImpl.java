@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.veterinaria.dao.IMascotaDao;
+import com.veterinaria.dao.IRazaDao;
 import com.veterinaria.entity.Mascota;
+import com.veterinaria.entity.Raza;
 import com.veterinaria.entity.TipoMascota;
 
 @Service
@@ -16,6 +18,9 @@ public class ServiceMascotaImpl implements IMascotaService {
 
 	@Autowired
 	private IMascotaDao mascotaDao;	
+	
+	@Autowired
+	private IRazaDao razaaDao;	
 	
 	
 	@Override
@@ -51,6 +56,12 @@ public class ServiceMascotaImpl implements IMascotaService {
 	public List<Mascota> ListByIdCliente(int id_user) {
 		// TODO Auto-generated method stub
 		return mascotaDao.ListMascotaPorCliente(id_user);
+	}
+
+	@Override
+	public List<Raza> ListRazaPorTipoMascota(int idtipo) {
+		// TODO Auto-generated method stub
+		return razaaDao.ListaRazaPorTipoMascota(idtipo);
 	}
 
 }

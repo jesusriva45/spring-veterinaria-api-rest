@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.veterinaria.entity.Mascota;
+import com.veterinaria.entity.Raza;
 import com.veterinaria.entity.TipoMascota;
 
 public interface IMascotaService {
@@ -23,7 +24,7 @@ public interface IMascotaService {
 	public abstract List<Mascota> ListByIdCliente(int id_user);
 	
 	
-	
+	public abstract List<Raza> ListRazaPorTipoMascota(int idtipo);
 	
 
 }

@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
@@ -53,13 +54,14 @@ public class Pedido implements Serializable{
 	
 	//@JsonManagedReference	 VALIDO
 	//@JsonManagedReference
+	@JsonIgnoreProperties({"detallePedidoProductoPK", "hibernateLazyInitializer", "handler" })
 	@JsonManagedReference(value="detallesProducto")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
 	//@MapKey(name = "pedido")
 	private List<DetallePedidoProducto> detallesProducto;
 
 	//listado del detalle del servicio
-	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({"detallePedidoServicioPK", "hibernateLazyInitializer", "handler" })
 	//@JsonManagedReference	 VALIDO
 	@JsonManagedReference(value="detallePedidoServicio")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")

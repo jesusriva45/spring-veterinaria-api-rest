@@ -32,7 +32,7 @@ public class Tracking implements Serializable{
 	
 	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY) 
-	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+	@JsonIgnoreProperties({"detallesProducto","detallePedidoServicio","hibernateLazyInitializer","handler"})
 	@JoinColumn(name = "idpedido")
 	private Pedido pedido;
 	

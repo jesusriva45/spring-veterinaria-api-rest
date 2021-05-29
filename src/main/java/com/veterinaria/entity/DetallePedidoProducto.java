@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name= "detalle_pedido_producto")
@@ -40,7 +41,7 @@ public class DetallePedidoProducto implements Serializable{
 	private Pedido pedido;
 	
 	//@JsonManagedReference	 VALIDO
-	
+	@JsonIgnoreProperties({"proveedor","hibernateLazyInitializer", "handler" })
 	@ManyToOne(optional = false)	
 	@JoinColumn(name = "idproducto", referencedColumnName = "idproducto", nullable = false, insertable = false, updatable = false)
 	private Producto producto;

@@ -35,9 +35,6 @@ public class Mascota implements Serializable {
 	@Column(name = "nombre")
 	private String nombre;
 
-	@Column(name = "raza")
-	private String raza;
-
 	@Column(name = "fecha_nacimiento")
 	@Temporal(TemporalType.DATE)
 	private Date fecha_nacimiento;
@@ -53,11 +50,17 @@ public class Mascota implements Serializable {
 	@JoinColumn(name = "idtipomascota")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private TipoMascota tipomascota;
+	
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idraza")
+	@JsonIgnoreProperties({"tipomascota", "hibernateLazyInitializer", "handler" })
+	private Raza raza;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idusuario_cliente")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({ "ubigeo","rol","pedidos", "hibernateLazyInitializer", "handler" })
 	private Usuario usuario;
 
 	/**/
@@ -85,11 +88,13 @@ public class Mascota implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getRaza() {
+
+
+	public Raza getRaza() {
 		return raza;
 	}
 
-	public void setRaza(String raza) {
+	public void setRaza(Raza raza) {
 		this.raza = raza;
 	}
 

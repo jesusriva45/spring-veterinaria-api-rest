@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.veterinaria.entity.Mascota;
+import com.veterinaria.entity.Raza;
 import com.veterinaria.entity.TipoMascota;
 import com.veterinaria.entity.Usuario;
 import com.veterinaria.service.IMascotaService;
@@ -115,4 +116,15 @@ public class MascotaController {
 		return ResponseEntity.ok(usuarioService.findById(id));
 	}
 
+	
+	//------------------- LISTAR RAZA POR TIPO DE MASCOTA -----------------------
+	
+	@Secured({ "ROLE_ADMIN", "ROLE_CLIENTE" })
+	@GetMapping("/mascotas/raza/{id}")
+	public ResponseEntity<List<Raza>> listaRazaPorTipoMacota(@PathVariable int id) {
+		return ResponseEntity.ok(mascotaService.ListRazaPorTipoMascota(id));
+	}
+	
+	
+	
 }

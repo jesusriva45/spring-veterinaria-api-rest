@@ -102,7 +102,7 @@ public class Producto implements Serializable{
 	@NotNull()
 	@ManyToOne(fetch=FetchType.LAZY) 
 	@JoinColumn(name = "idproveedor")
-	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+	@JsonIgnoreProperties({"ubigeo","hibernateLazyInitializer","handler"})
 	//@JsonBackReference
 	private Proveedor proveedor;
 	
