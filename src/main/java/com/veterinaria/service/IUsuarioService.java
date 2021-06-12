@@ -57,7 +57,7 @@ public interface IUsuarioService  {
 	
 
 	
-	public abstract Usuario saveUserCliente(Usuario cli);
+	//public abstract Usuario saveUserCliente(Usuario cli);
 	
 	//------------------------------------------------------------
 	

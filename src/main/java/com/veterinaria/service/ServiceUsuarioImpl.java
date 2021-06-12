@@ -1,13 +1,17 @@
 package com.veterinaria.service;
 
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -25,6 +29,7 @@ import com.veterinaria.entity.AccesoRol;
 import com.veterinaria.entity.Rol;
 import com.veterinaria.entity.Ubigeo;
 import com.veterinaria.entity.Usuario;
+import com.veterinaria.utils.EmailService;
 
 
 @Service
@@ -36,6 +41,8 @@ public class ServiceUsuarioImpl implements IUsuarioService, UserDetailsService{
 	@Autowired
 	private IRolDao rolDao;	
 	
+	@Autowired
+	private EmailService emailService;
 	
 	
 	@Lazy
@@ -65,10 +72,9 @@ public class ServiceUsuarioImpl implements IUsuarioService, UserDetailsService{
 	@Override
 	@Transactional
 	public Usuario save(Usuario objUser) {
-		// TODO Auto-generated method stub
-	
-		//objUser.setPassword(passwordEncoder.encode(objUser.getPassword()));
-		//objUser.setEstado(true);
+		// TODO Auto-generated method stu	
+		
+		emailService.sendEmailMessageWelcome(objUser.getCorreo());
 		
 		return usuarioDao.save(objUser);
 	}
@@ -165,12 +171,23 @@ public class ServiceUsuarioImpl implements IUsuarioService, UserDetailsService{
 	}
 
 	//---------------------- CLIENTE ---------------------------
-	@Override
+	/*@Override
 	public Usuario saveUserCliente(Usuario cli) {
 		// TODO Auto-generated method stub
+		
+		String body = "<p>&nbsp;</p>\r\n"
+				+ "<h3>El ultimo cambio que har&eacute; para el proyecto</h3>";
+		
+		SimpleMailMessage message = new SimpleMailMessage(); 
+        message.setFrom("jesusriva45@gmail.com");
+        message.setTo("jesusriva45@gmail.com"); 
+        message.setSubject("Bienvenido a Patazas"); 
+        message.setText(body);
+        emailSender.send(message);
+		
 		return usuarioDao.save(cli);
 	}
-
+*/
 	//--------------------------------------------------
 
 	
