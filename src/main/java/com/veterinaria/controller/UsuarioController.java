@@ -42,6 +42,7 @@ public class UsuarioController {
 	@Autowired
 	private IUsuarioService usuarioService;
 	
+	
 
 	@Lazy
 	@Autowired

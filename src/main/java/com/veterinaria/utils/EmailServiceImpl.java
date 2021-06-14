@@ -9,16 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
-    private JavaMailSender emailSender;
-
- 
+    private JavaMailSender emailSender; 
 
 	@Override
+	@Transactional
 	public void sendEmailMessageWelcome(String to) {
 		// TODO Auto-generated method stub       
 	        
@@ -34,20 +34,20 @@ public class EmailServiceImpl implements EmailService {
 				helper.setTo(to);				
 				helper.setText(body,true);
 			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto-generated catch block				
 				e.printStackTrace();
 			}
-			emailSender.send(message);		
+			emailSender.send(message);	
 	}
-
-
-
+	
+	
 	@Override
 	public void sendEmailMessagePedido(String to, String subject, String text) {
 		// TODO Auto-generated method stub
 		
 	}
 }
+
 /*
  * @Bean
 public JavaMailSender getJavaMailSender() {

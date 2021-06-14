@@ -29,7 +29,6 @@ import com.veterinaria.entity.AccesoRol;
 import com.veterinaria.entity.Rol;
 import com.veterinaria.entity.Ubigeo;
 import com.veterinaria.entity.Usuario;
-import com.veterinaria.utils.EmailService;
 
 
 @Service
@@ -41,8 +40,8 @@ public class ServiceUsuarioImpl implements IUsuarioService, UserDetailsService{
 	@Autowired
 	private IRolDao rolDao;	
 	
-	@Autowired
-	private EmailService emailService;
+	//@Autowired
+	//private EmailService emailService;
 	
 	
 	@Lazy
@@ -74,7 +73,7 @@ public class ServiceUsuarioImpl implements IUsuarioService, UserDetailsService{
 	public Usuario save(Usuario objUser) {
 		// TODO Auto-generated method stu	
 		
-		emailService.sendEmailMessageWelcome(objUser.getCorreo());
+		//emailService.sendEmailMessageWelcome(objUser.getCorreo());
 		
 		return usuarioDao.save(objUser);
 	}

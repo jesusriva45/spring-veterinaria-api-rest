@@ -21,10 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.istack.NotNull;
+
 
 @Entity
 @Table(name = "usuario")
@@ -67,7 +65,6 @@ public class Usuario implements Serializable {
 	private Date fechaNac;
 
 	/* Muchos usuarios en Una Region - Muchos --> 1 */
-	@NotNull()
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_ubigeo")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })

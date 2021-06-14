@@ -10,8 +10,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,100 +28,95 @@ import com.veterinaria.entity.Rol;
 import com.veterinaria.entity.Usuario;
 import com.veterinaria.service.IAccesoRolService;
 import com.veterinaria.service.IUsuarioService;
+import com.veterinaria.utils.EmailService;
 
 import javassist.NotFoundException;
 
-@CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app","https://patazasvet.web.app" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://patazas-62d1c.web.app", "https://patazasvet.web.app" })
 @RestController
 @RequestMapping("/api")
 public class ClienteController {
 
 	@Autowired
 	private IUsuarioService usuarioService;
-	
 
 	@Lazy
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private IAccesoRolService accesoService;
-	
-	
-	
-	//--- Prueba ---
-	//-------------------- REGISTRO DE CLIENTE ---------------------------
-	
-	
-	
-	@PostMapping("/cliente")
-	public ResponseEntity<?> insertCliente(@RequestBody Usuario obj, BindingResult result){			
-			
-	
-		Usuario user = null;
-		
-		Map<String, Object> response = new HashMap<>();
-		
-		if(result.hasErrors()) {
 
-			List<String> errors = result.getFieldErrors()
-					.stream()
-					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+	@Autowired
+	private EmailService emailService;
+
+	// --- Prueba ---
+	// -------------------- REGISTRO DE CLIENTE ---------------------------
+
+	@PostMapping("/cliente")
+	@Transactional
+	public ResponseEntity<?> insertCliente(@RequestBody Usuario obj, BindingResult result) {
+
+		Usuario user = null;
+
+		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
 					.collect(Collectors.toList());
-			
+
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}	
-		
+		}
+
 		try {
 			obj.setEstado(true);
 			obj.setUsername(obj.getDni());
 			obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 			user = usuarioService.save(obj);
-			
+
 			Rol rol = new Rol();
-			
-			AccesoRol accesoRol  =new AccesoRol();
-			
-			
+
+			AccesoRol accesoRol = new AccesoRol();
+
 			accesoRol.setIdusuario(obj.getIdusuario());
-			rol.setIdrol(2);			
-			
+			rol.setIdrol(2);
+
 			accesoRol.setRol(rol);
 
-			
 			accesoService.saveRol(accesoRol);
-			
-			
-		} catch (DataAccessException  e) {
+
+			emailService.sendEmailMessageWelcome(obj.getCorreo());
+
+		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensaje", "El usuario ha sido creado con éxito!");
-		response.put("usuario", user);	
-		
-		
-		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
+		response.put("usuario", user);
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
-	
-	@Secured({ "ROLE_CLIENTE"})	
+
+	@Secured({ "ROLE_CLIENTE" })
 	@PutMapping("/usuario-sistema/pass/{id}")
-	public ResponseEntity<Usuario> updatePassword(@RequestBody Usuario obj, @PathVariable int id) throws NotFoundException {
+	public ResponseEntity<Usuario> updatePassword(@RequestBody Usuario obj, @PathVariable int id)
+			throws NotFoundException {
 		Usuario usuActual = usuarioService.findById(id)
 				.orElseThrow(() -> new NotFoundException("Usuario not found for this id :: " + id));
 
-
-		//usuActual.setPassword(passwordEncoder.encode(obj.getPassword()));
+		// usuActual.setPassword(passwordEncoder.encode(obj.getPassword()));
 		usuActual.setPassword(passwordEncoder.encode(obj.getPassword()));
-		//objUser.setEstado(true);
+		// objUser.setEstado(true);
 
 		final Usuario updatedUsuario = usuarioService.save(usuActual);
 		return ResponseEntity.ok(updatedUsuario);
 	}
-	
-	@Secured({ "ROLE_CLIENTE","ROLE_ADMIN","ROLE_VENDEDOR"})	
+
+	@Secured({ "ROLE_CLIENTE", "ROLE_ADMIN", "ROLE_VENDEDOR" })
 	@PutMapping("/usuario-sistema/{id}")
 	public ResponseEntity<Usuario> update(@RequestBody Usuario obj, @PathVariable int id) throws NotFoundException {
 		Usuario usuActual = usuarioService.findById(id)
@@ -140,13 +137,11 @@ public class ClienteController {
 		usuActual.setDireccion(obj.getDireccion());
 		usuActual.setUbigeo(obj.getUbigeo());
 		usuActual.setUsername(obj.getUsername());
-		//usuActual.setPassword(obj.getPassword());
-		//objUser.setEstado(true);
+		// usuActual.setPassword(obj.getPassword());
+		// objUser.setEstado(true);
 
 		final Usuario updatedUsuario = usuarioService.save(usuActual);
 		return ResponseEntity.ok(updatedUsuario);
 	}
-	
-	
-	
+
 }
