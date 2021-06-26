@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.veterinaria.entity.DiasServicio;
-//import com.veterinaria.entity.HistorialMascota;
+
 import com.veterinaria.entity.HorarioServicio;
-//import com.veterinaria.entity.Mascota;
+
 import com.veterinaria.entity.Cita;
 import com.veterinaria.service.ICitaService;
-import com.veterinaria.service.IHorarioServicioService;
 import com.veterinaria.service.IDiasServicioService;
-//import com.veterinaria.utils.EmailService;
+import com.veterinaria.service.IHorarioServicioService;
+import com.veterinaria.utils.EmailService;
 
 import javassist.NotFoundException;
 
@@ -48,8 +48,8 @@ public class CitaController {
 	@Autowired
 	private ICitaService citaService;
 	
-	//@Autowired
-	//private EmailService emailService;
+	@Autowired
+	private EmailService emailService;
 	
 	
 	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
@@ -153,12 +153,12 @@ public class CitaController {
 		
 		//String subject, String to, String text
 		
-		//String body = "<h2>Nro : B-CT-000000"+obj.getIdcita()+"</h2><br>"+
-		//				"<h4>Servicio Adquirido : "+ obj.getServicio().getNombre() +"</h4><br>"+
-		//				"<h4> Costo : S/." + obj.getCosto()  + "</h4><br>"+
-		//				"";
+		String body = "<h2>Nro : B-CT-000000"+obj.getIdcita()+"</h2><br>"+
+						"<h4>Servicio Adquirido : "+ obj.getServicio().getNombre() +"</h4><br>"+
+						"<h4> Costo : S/." + obj.getCosto()  + "</h4><br>"+
+						"";
 		
-		//emailService.sendEmailMessagePagoCita("Cita - Pago realizado",obj.getUsuario().getCorreo(),body);
+		emailService.sendEmailMessagePagoCita("Cita - Pago realizado",obj.getUsuario().getCorreo(),body);
 	
 
 		final Cita updatedCita = citaService.save(citaActual);

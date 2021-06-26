@@ -30,6 +30,7 @@ import com.veterinaria.entity.Pedido;
 import com.veterinaria.entity.SeleccionProducto;
 import com.veterinaria.entity.SeleccionServicio;
 import com.veterinaria.service.IPedidoService;
+import com.veterinaria.utils.EmailService;
 
 import javassist.NotFoundException;
 
@@ -40,6 +41,9 @@ public class PedidoController {
 
 	@Autowired
 	private IPedidoService pedidoService;
+	
+	@Autowired
+	private EmailService emailService;
 
 
 	// aca se almacenan los productos seleccionados
@@ -246,6 +250,13 @@ public class PedidoController {
 		pedido.setDetallePedidoServicio(detalleServicio);
 		// }
 		pedido.setEstado("PAGADO");
+		
+		
+		String body = "<h2>Nro : BP-000000"+ped.getIdpedido()+"</h2><br>"+
+				"<span><img src='https://firebasestorage.googleapis.com/v0/b/patazasvet.appspot.com/o/imagenes%2FLogo%20de%20patazas-02.png?alt=media&token=74d187c5-f54b-477b-a950-920b523e6f67'></span>";
+
+		emailService.sendEmailMessagePedido("Pedido - Pago realizado",ped.getUsuario().getCorreo(),body);
+		
 
 		// pedidoService.insertaPedidoProducto(pedido);
 		// pedidoService.insertaPedidoServicio(pedido);
