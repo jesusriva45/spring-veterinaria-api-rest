@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.veterinaria.entity.Mascota;
 import com.veterinaria.entity.Cita;
 import com.veterinaria.service.ICitaService;
+import com.veterinaria.service.IHorarioServicioService;
 //import com.veterinaria.service.IDiasServicioService;
 //import com.veterinaria.service.IHorarioServicioService;
 import com.veterinaria.utils.EmailService;
@@ -38,12 +39,12 @@ import javassist.NotFoundException;
 @RequestMapping("/api")
 public class CitaController {
 	
-//	@Autowired
-//	private IHorarioServicioService horarioService;
-//	
-//	
-//	@Autowired 
-//	private IDiasServicioService diasServicioService;
+	@Autowired
+	private IHorarioServicioService horarioService;
+	
+	
+	@Autowired 
+	private IDiasServicioService diasServicioService;
 	
 	@Autowired
 	private ICitaService citaService;
@@ -52,17 +53,17 @@ public class CitaController {
 	private EmailService emailService;
 	
 	
-//	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
-//	@GetMapping("/cita/horario/{dia}")
-//	public ResponseEntity<List<HorarioServicio>> listAllHorarioServicio(@PathVariable String dia) {
-//		return ResponseEntity.ok(horarioService.listaHorarioPorDia(dia));
-//	}
-//	
-//	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
-//	@GetMapping("/cita/dias/{id_servicio}")
-//	public ResponseEntity<List<DiasServicio>> listAllDiasServicio(@PathVariable int id_servicio) {
-//		return ResponseEntity.ok(diasServicioService.listaDiasDeAtencionPorServico(id_servicio));
-//	}
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
+	@GetMapping("/cita/horario/{dia}")
+	public ResponseEntity<List<HorarioServicio>> listAllHorarioServicio(@PathVariable String dia) {
+		return ResponseEntity.ok(horarioService.listaHorarioPorDia(dia));
+	}
+	
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
+	@GetMapping("/cita/dias/{id_servicio}")
+	public ResponseEntity<List<DiasServicio>> listAllDiasServicio(@PathVariable int id_servicio) {
+		return ResponseEntity.ok(diasServicioService.listaDiasDeAtencionPorServico(id_servicio));
+	}
 	
 	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
 	@GetMapping("/cita/{dni}/{estado}")
@@ -158,7 +159,7 @@ public class CitaController {
 						"<h4> Costo : S/." + obj.getCosto()  + "</h4><br>"+
 						"";
 		
-//		emailService.sendEmailMessagePagoCita("Cita - Pago realizado",obj.getUsuario().getCorreo(),body);
+		emailService.sendEmailMessagePagoCita("Cita - Pago realizado",obj.getUsuario().getCorreo(),body);
 	
 
 		final Cita updatedCita = citaService.save(citaActual);
