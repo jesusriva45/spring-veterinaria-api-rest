@@ -1,6 +1,5 @@
 package com.veterinaria.entity;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,9 +24,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 @Entity
-@Table(name="pedido")
-public class Pedido implements Serializable{
-	
+@Table(name = "pedido")
+public class Pedido implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -37,52 +36,48 @@ public class Pedido implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false, length = 10)
 	private int idpedido;
-	
-	
-	
+
+	@Column(name = "estado")
+	private String estado;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_pedido")
 	private Date fecha_pedido;
-	
+
 	@NotNull
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "idusuario")
-	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	// @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Usuario usuario;
-	
-	//listado del detalle del producto
-	
-	//@JsonManagedReference	 VALIDO
-	//@JsonManagedReference
-	@JsonIgnoreProperties({"detallePedidoProductoPK", "hibernateLazyInitializer", "handler" })
-	@JsonManagedReference(value="detallesProducto")
+
+	// listado del detalle del producto
+
+	// @JsonManagedReference VALIDO
+	// @JsonManagedReference
+	@JsonIgnoreProperties({ "detallePedidoProductoPK", "hibernateLazyInitializer", "handler" })
+	@JsonManagedReference(value = "detallesProducto")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
-	//@MapKey(name = "pedido")
+	// @MapKey(name = "pedido")
 	private List<DetallePedidoProducto> detallesProducto;
 
-	//listado del detalle del servicio
-	@JsonIgnoreProperties({"detallePedidoServicioPK", "hibernateLazyInitializer", "handler" })
-	//@JsonManagedReference	 VALIDO
-	@JsonManagedReference(value="detallePedidoServicio")
+	// listado del detalle del servicio
+	@JsonIgnoreProperties({ "detallePedidoServicioPK", "hibernateLazyInitializer", "handler" })
+	// @JsonManagedReference VALIDO
+	@JsonManagedReference(value = "detallePedidoServicio")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido")
-	//@MapKey(name = "id")
+	// @MapKey(name = "id")
 	private List<DetallePedidoServicio> detallePedidoServicio;
-	
-	
-	
+
 	@PrePersist
 	public void prePersist() {
 		fecha_pedido = new Date();
 	}
 
-	
-	
 	public Pedido() {
 		detallesProducto = new ArrayList<>();
-		
-		detallePedidoServicio = new ArrayList<>();		
+
+		detallePedidoServicio = new ArrayList<>();
 	}
-	
 
 	public int getIdpedido() {
 		return idpedido;
@@ -94,9 +89,9 @@ public class Pedido implements Serializable{
 
 	@SuppressWarnings("deprecation")
 	public Date getFecha_pedido() {
-		
-		fecha_pedido.setHours(fecha_pedido.getHours()-7);
-		
+
+		fecha_pedido.setHours(fecha_pedido.getHours() - 7);
+
 		return fecha_pedido;
 	}
 
@@ -119,13 +114,21 @@ public class Pedido implements Serializable{
 	public void setDetallesProducto(List<DetallePedidoProducto> detallesProducto) {
 		this.detallesProducto = detallesProducto;
 	}
-	
+
 	public List<DetallePedidoServicio> getDetallePedidoServicio() {
 		return detallePedidoServicio;
 	}
 
 	public void setDetallePedidoServicio(List<DetallePedidoServicio> detallePedidoServicio) {
 		this.detallePedidoServicio = detallePedidoServicio;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 }
