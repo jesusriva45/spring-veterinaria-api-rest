@@ -12,7 +12,7 @@ import com.veterinaria.dao.IDetallePedidoProductoDao;
 import com.veterinaria.dao.IDetallePedidoServicioDao;
 import com.veterinaria.dao.IPedidoRepositoryDao;
 import com.veterinaria.dao.ITrackingDao;
-import com.veterinaria.entity.Cita;
+
 import com.veterinaria.entity.DetallePedidoProducto;
 import com.veterinaria.entity.DetallePedidoServicio;
 import com.veterinaria.entity.Estado;
