@@ -158,7 +158,7 @@ public class CitaController {
 						"<h4> Costo : S/." + obj.getCosto()  + "</h4><br>"+
 						"";
 		
-		emailService.sendEmailMessagePagoCita("Cita - Pago realizado",obj.getUsuario().getCorreo(),body);
+		//emailService.sendEmailMessagePagoCita("Cita - Pago realizado",obj.getUsuario().getCorreo(),body);
 	
 
 		final Cita updatedCita = citaService.save(citaActual);
