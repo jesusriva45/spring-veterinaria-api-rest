@@ -36,6 +36,7 @@ public class DetallePedidoProducto implements Serializable{
 	
 	//@JsonManagedReference NO VALIDO
 	@JsonBackReference(value="detallesProducto")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler" })
 	@JoinColumn(name = "idpedido", referencedColumnName = "idpedido",nullable = false, insertable = false, updatable = false)
 	@ManyToOne(optional = false)	
 	private Pedido pedido;

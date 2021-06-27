@@ -41,14 +41,27 @@ public class ServicioController {
 	public ResponseEntity<Optional<Servicio>> listById(@PathVariable int id) {
 		return ResponseEntity.ok(servicioService.findById(id));
 	}
+	
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
+	@GetMapping("/servicios/cate/{id}")
+	public ResponseEntity<List<Servicio>> listarServicioPorCategoria(@PathVariable int id) {
+		
+		return ResponseEntity.ok(servicioService.listarServicioPorCategoria(id));
+	}
+	
 
-	@Secured({"ROLE_VENDEDOR","ROLE_ADMIN"})
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_RECEPCIONISTA" })
 	@PostMapping("/servicios")
 	public ResponseEntity<Servicio> insert(@RequestBody Servicio obj) {
 		return ResponseEntity.ok(servicioService.save(obj));
 	}
+	
+	
+	
+	
+	
 
-	@Secured({"ROLE_VENDEDOR","ROLE_ADMIN"})
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
 	@PutMapping("/servicios/{id}")
 	public ResponseEntity<Servicio> update(@RequestBody Servicio obj, @PathVariable int id) throws NotFoundException {
 		Servicio serActual = servicioService.findById(id)
@@ -67,7 +80,7 @@ public class ServicioController {
 		return ResponseEntity.ok(updatedServicio);
 
 	}
-	@Secured({"ROLE_VENDEDOR","ROLE_ADMIN"})
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
 	@DeleteMapping("/servicios/{id}")
 	public void delete(@PathVariable int id) {
 		servicioService.delete(id);

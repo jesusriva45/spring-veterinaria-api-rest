@@ -17,5 +17,7 @@ public interface IServicioService {
 	public abstract List<SerCategoria> ListAllCategoria();
 	
 	public  abstract  Optional<Servicio> findById (int id);
+	
+	public List<Servicio> listarServicioPorCategoria(int id_cate);
 
 }

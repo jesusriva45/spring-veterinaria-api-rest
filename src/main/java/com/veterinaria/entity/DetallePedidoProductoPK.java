@@ -33,6 +33,31 @@ public class DetallePedidoProductoPK implements Serializable {
 		this.idproducto = idproducto;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + idpedido;
+		result = prime * result + idproducto;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DetallePedidoProductoPK other = (DetallePedidoProductoPK) obj;
+		if (idpedido != other.idpedido)
+			return false;
+		if (idproducto != other.idproducto)
+			return false;
+		return true;
+	}
+
 	
 	
 

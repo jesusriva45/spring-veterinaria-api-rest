@@ -12,4 +12,7 @@ public interface IServicioDao extends JpaRepository<Servicio, Integer> {
 
 	@Query("from SerCategoria")
 	public List<SerCategoria> listAllCategoria();
+	
+	public List<Servicio> findBySerCategoria(SerCategoria serCategoria);
+	
 }

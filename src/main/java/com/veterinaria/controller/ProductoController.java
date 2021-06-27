@@ -29,52 +29,54 @@ import com.veterinaria.service.IProductoService;
 
 import javassist.NotFoundException;
 
-@CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app","https://patazasvet.web.app" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://patazas-62d1c.web.app", "https://patazasvet.web.app" })
 @RestController
 @RequestMapping("/api")
 public class ProductoController {
-	
+
 	@Autowired
 	private IProductoService productoService;
-	
-	
-	//@GetMapping("/productos")
+
+	// @GetMapping("/productos")
 	@RequestMapping("/productos")
 	@ResponseBody
-	public List<Producto>  listAll(){
+	public List<Producto> listAll() {
 		return productoService.findAll();
 	}
+
 	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
 	@RequestMapping("/registraProducto")
 	@ResponseBody
-	public Map<String, Object> registra(Producto obj) throws FileNotFoundException{
+	public Map<String, Object> registra(Producto obj) throws FileNotFoundException {
 		Map<String, Object> salida = new HashMap<>();
 		Producto objSalida = productoService.save(obj);
 		if (objSalida == null) {
 			salida.put("MENSAJE", "Registro erróneo");
-		}else {
+		} else {
 			salida.put("MENSAJE", "Registro exitoso");
 		}
 		return salida;
 	}
-	
+
 	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
 	@PostMapping("/productos")
-	public ResponseEntity<Producto> insert(@RequestBody Producto obj) {		
-	
+	public ResponseEntity<Producto> insert(@RequestBody Producto obj) {
+
 		return ResponseEntity.ok(productoService.save(obj));
 	}
-	
-	
+
 	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
 	@PutMapping("/productos/{id}")
-	public ResponseEntity<Producto> update(@RequestBody Producto obj, @PathVariable int id) throws NotFoundException, FileNotFoundException{
-		//obj.setFecha_reg(new Date())
-		Producto prodActual = productoService.findById(id).orElseThrow(() -> new 
-				NotFoundException(""));
-		
-		     /*Employee employee = employeeRepository.findById(employeeId)
-		     .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));*/
+	public ResponseEntity<Producto> update(@RequestBody Producto obj, @PathVariable int id)
+			throws NotFoundException, FileNotFoundException {
+		// obj.setFecha_reg(new Date())
+		Producto prodActual = productoService.findById(id).orElseThrow(() -> new NotFoundException(""));
+
+		/*
+		 * Employee employee = employeeRepository.findById(employeeId) .orElseThrow(()
+		 * -> new ResourceNotFoundException("Employee not found for this id :: " +
+		 * employeeId));
+		 */
 
 		prodActual.setNombre(obj.getNombre());
 		prodActual.setPrecio(obj.getPrecio());
@@ -87,54 +89,49 @@ public class ProductoController {
 		prodActual.setFoto2(obj.getFoto2());
 		prodActual.setFoto3(obj.getFoto3());
 		prodActual.setProveedor(obj.getProveedor());
-		prodActual.setCategoria(obj.getCategoria());				
-			
+		prodActual.setCategoria(obj.getCategoria());
+
 		final Producto updatedProducto = productoService.save(prodActual);
-		
-	 return ResponseEntity.ok(updatedProducto);
-	 
+
+		return ResponseEntity.ok(updatedProducto);
+
 	}
-	//@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
+
+	// @Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
 	@DeleteMapping("/productos/{id}")
 	public void delete(@PathVariable int id) {
-		productoService.delete(id);		
+		productoService.delete(id);
 	}
-	
-	
-	
-	
+
 	@GetMapping("/productosPrecio/{precioMin}/{precioMax}")
 	@ResponseBody
-	public HttpEntity<List<Producto>> listByPrice(@PathVariable double precioMin ,@PathVariable double precioMax){
-		return ResponseEntity.ok(productoService.findByPrecio(precioMin,precioMax));
+	public HttpEntity<List<Producto>> listByPrice(@PathVariable double precioMin, @PathVariable double precioMax) {
+		return ResponseEntity.ok(productoService.findByPrecio(precioMin, precioMax));
 	}
-	
-	//@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN","ROLE_CLIENTE" })
+
+	// @Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN","ROLE_CLIENTE" })
 	@GetMapping("/productos/{id}")
 	@ResponseBody
-	public ResponseEntity<Optional<Producto>> listById(@PathVariable int id){
+	public ResponseEntity<Optional<Producto>> listById(@PathVariable int id) {
 		return ResponseEntity.ok(productoService.findById(id));
 	}
-	
-	//@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
+
+	// @Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
 	@GetMapping("/productos/categoria")
-	public ResponseEntity<List<ProCategoria>> listCategoria(){
+	public ResponseEntity<List<ProCategoria>> listCategoria() {
 		return ResponseEntity.ok(productoService.listAllCategoria());
 	}
-	
-	//@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
+
+	// @Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
 	@GetMapping("/productos/proveedor")
-	public ResponseEntity<List<Proveedor>> listProveedor(){
+	public ResponseEntity<List<Proveedor>> listProveedor() {
 		return ResponseEntity.ok(productoService.listAllProveedor());
 	}
-	//@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
+
+	// @Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN" })
 	@GetMapping("/productos/marca")
-	public ResponseEntity<List<ProMarca>> listMarca(){
+	public ResponseEntity<List<ProMarca>> listMarca() {
 		return ResponseEntity.ok(productoService.listAllMarca());
-	}	
+	}
 
 }
-
-
-
-

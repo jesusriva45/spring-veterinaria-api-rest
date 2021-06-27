@@ -102,9 +102,6 @@ public class Usuario implements Serializable {
 
 	// ---------------------------------
 	
-	
-	
-	
 
 	public List<Rol> getRol() {
 		return rol;

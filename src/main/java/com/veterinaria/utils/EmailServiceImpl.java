@@ -23,7 +23,7 @@ public class EmailServiceImpl implements EmailService {
 		// TODO Auto-generated method stub       
 	        
 	        String body = "<p>&nbsp;</p>\r\n"
-					+ "<h3>El ultimo cambio que har&eacute; para el proyecto</h3>"+
+					+ "<h3></h3>"+
 					"<span><img src='https://firebasestorage.googleapis.com/v0/b/patazasvet.appspot.com/o/imagenes%2FLogo%20de%20patazas-02.png?alt=media&token=74d187c5-f54b-477b-a950-920b523e6f67'></span>";			
 
 			MimeMessage message = emailSender.createMimeMessage();
@@ -42,9 +42,49 @@ public class EmailServiceImpl implements EmailService {
 	
 	
 	@Override
-	public void sendEmailMessagePedido(String to, String subject, String text) {
+	@Transactional
+	public void sendEmailMessagePedido(String to, String subject, String body) {
+		// TODO Auto-generated method stub
+		 body = "<p>&nbsp;</p>\r\n"
+					+ "<h3></h3>"+
+					"<span><img src='https://firebasestorage.googleapis.com/v0/b/patazasvet.appspot.com/o/imagenes%2FLogo%20de%20patazas-02.png?alt=media&token=74d187c5-f54b-477b-a950-920b523e6f67'></span>";			
+
+			MimeMessage message = emailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message);
+			try {
+				helper.setSubject(subject);
+				helper.setFrom("jesusriva45@gmail.com");
+				helper.setTo(to);				
+				helper.setText(body,true);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block				
+				e.printStackTrace();
+			}
+			emailSender.send(message);	
+		
+	}
+
+
+	@Override
+	public void sendEmailMessagePagoCita(String subject, String to, String body) {
 		// TODO Auto-generated method stub
 		
+		
+		
+					
+
+			MimeMessage message = emailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message);
+			try {
+				helper.setSubject(subject);
+				helper.setFrom("jesusriva45@gmail.com");
+				helper.setTo(to);				
+				helper.setText(body,true);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block				
+				e.printStackTrace();
+			}
+			emailSender.send(message);	
 	}
 }
 

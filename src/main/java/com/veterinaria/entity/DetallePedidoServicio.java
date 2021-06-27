@@ -13,6 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "detalle_pedido_servicio")
@@ -38,7 +39,7 @@ public class DetallePedidoServicio implements Serializable{
 	@Column(name = "fecha_atencion")	
 	private Date fecha_atencion;	
 	
-	
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@JsonBackReference(value="detallePedidoServicio")
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "idpedido", referencedColumnName = "idpedido", nullable = false, insertable = false, updatable = false)

@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.TransactionRequiredException;
+import javax.transaction.TransactionalException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataAccessException;
@@ -82,7 +85,7 @@ public class ClienteController {
 			AccesoRol accesoRol = new AccesoRol();
 
 			accesoRol.setIdusuario(obj.getIdusuario());
-			rol.setIdrol(2);
+			rol.setIdrol(20);
 
 			accesoRol.setRol(rol);
 

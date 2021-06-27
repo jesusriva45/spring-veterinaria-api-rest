@@ -44,6 +44,10 @@ public class Pedido implements Serializable{
 	@Column(name = "fecha_pedido")
 	private Date fecha_pedido;
 	
+	
+	@Column(name = "estado")
+	private String estado;
+	
 	@NotNull
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "idusuario")
@@ -92,17 +96,29 @@ public class Pedido implements Serializable{
 		this.idpedido = idpedido;
 	}
 
-	@SuppressWarnings("deprecation")
-	public Date getFecha_pedido() {
-		
-		fecha_pedido.setHours(fecha_pedido.getHours()-7);
-		
+
+	public Date getFecha_pedido() {		
 		return fecha_pedido;
 	}
 
 	public void setFecha_pedido(Date fecha_pedido) {
 		this.fecha_pedido = fecha_pedido;
 	}
+	
+	
+	
+
+	public String getEstado() {
+		return estado;
+	}
+
+
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+
 
 	public Usuario getUsuario() {
 		return usuario;

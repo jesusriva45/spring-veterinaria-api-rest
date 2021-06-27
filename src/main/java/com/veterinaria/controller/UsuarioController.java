@@ -61,7 +61,7 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.findAll());
 	}
 
-	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE" })
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
 	@GetMapping("/usuarios/{id}")
 	public ResponseEntity<Optional<Usuario>> listById(@PathVariable int id) {
 		return ResponseEntity.ok(usuarioService.findById(id));
@@ -148,7 +148,7 @@ public class UsuarioController {
 	
 	
 
-	@Secured({"ROLE_ADMIN","ROLE_VENDEDOR","ROLE_CLIENTE"})	
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
 	@PutMapping("/usuarios/{id}")
 	public ResponseEntity<Usuario> update(@RequestBody Usuario obj, @PathVariable int id) throws NotFoundException {
 		Usuario usuActual = usuarioService.findById(id)
@@ -196,7 +196,7 @@ public class UsuarioController {
 	
 	
 	//--------------------------- ACTUALIZAR PASSWORD ----------------------------
-	@Secured({"ROLE_ADMIN","ROLE_VENDEDOR","ROLE_CLIENTE"})	
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
 	@PutMapping("/usuarios/pass/{id}")
 	public ResponseEntity<Usuario> updatePassword(@RequestBody Usuario obj, @PathVariable int id) throws NotFoundException {
 		Usuario usuActual = usuarioService.findById(id)
@@ -253,7 +253,16 @@ public class UsuarioController {
 	}
 	
 	
-	
+	/*
+	 * idconsulta: number;
+    fecha_atencion: string;
+    fecha_modificacion: string;
+    estado: string;
+    diagnostico: string;
+    usuario: Usuario;
+    servicio: Servicio;
+    historialMascota: Historial;
+	 * */
 
 	
 	

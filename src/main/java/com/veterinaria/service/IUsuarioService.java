@@ -8,6 +8,8 @@ import com.veterinaria.entity.Rol;
 import com.veterinaria.entity.Ubigeo;
 import com.veterinaria.entity.Usuario;
 
+import javassist.NotFoundException;
+
 public interface IUsuarioService  {
 
 	public abstract   List<Usuario> findAll();

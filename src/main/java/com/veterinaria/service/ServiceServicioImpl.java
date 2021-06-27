@@ -53,6 +53,17 @@ public class ServiceServicioImpl implements IServicioService {
 		// TODO Auto-generated method stub
 		return servicioDao.listAllCategoria();
 	}
+
+	@Override
+	public List<Servicio> listarServicioPorCategoria(int id_cate) {
+		// TODO Auto-generated method stub
+		
+		SerCategoria categoria = new SerCategoria();
+		
+		categoria.setIdcategoria(id_cate);
+		
+		return servicioDao.findBySerCategoria(categoria);
+	}
 	
 	
 

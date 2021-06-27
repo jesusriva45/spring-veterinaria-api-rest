@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.veterinaria.entity.Mascota;
 import com.veterinaria.entity.Raza;
 import com.veterinaria.entity.TipoMascota;
+import com.veterinaria.entity.Usuario;
 
 public interface IMascotaService {
 	
@@ -26,5 +27,6 @@ public interface IMascotaService {
 	
 	public abstract List<Raza> ListRazaPorTipoMascota(int idtipo);
 	
+	public abstract List<Mascota> ListMascotaPorDniUsuario(String dni);
 
 }

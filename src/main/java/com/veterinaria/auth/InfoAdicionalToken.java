@@ -2,6 +2,7 @@ package com.veterinaria.auth;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -26,6 +27,8 @@ public class InfoAdicionalToken implements TokenEnhancer{
 		
 		Usuario usuario = usuarioService.findByUsername(authentication.getName());
 		
+		//Optional<Usuario> user = usuarioService.findById(usuario.getIdusuario());
+		
 		//Optional<Cliente> cliente = clienteService.findByIdUsuario(usuario.getIdusuario());
 		
 		Map<String, Object> info = new HashMap<>();
@@ -34,6 +37,8 @@ public class InfoAdicionalToken implements TokenEnhancer{
 		info.put("nombres", usuario.getNombres());
 		info.put("apellidos", usuario.getApellidos());
 		info.put("correo", usuario.getCorreo());
+		info.put("dni", usuario.getDni());
+		//info.put("usuario", user);
 		
 		
 		//info.put("idCliente", cliente.map((json)-> json.getIdcliente()));

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.veterinaria.dao.IAccesoRolDao;
 import com.veterinaria.entity.AccesoRol;
 
+import javassist.NotFoundException;
+
 
 
 @Service
@@ -28,7 +30,7 @@ public class ServiceAccesoRolImpl implements IAccesoRolService{
 	//------------ ASIGNA Y ACTUALIZA EL ROL DE UN USUARIO ------------------------
 	
 	@Override
-	public AccesoRol saveRol(AccesoRol obj) {
+	public AccesoRol saveRol(AccesoRol obj){
 		// TODO Auto-generated method stub
 		
 		//AccesoRol acceso = new  AccesoRol(new AccesoRolId());	

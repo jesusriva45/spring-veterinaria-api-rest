@@ -3,6 +3,7 @@ package com.veterinaria.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -58,9 +59,9 @@ public class Mascota implements Serializable {
 	private Raza raza;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idusuario_cliente")
-	@JsonIgnoreProperties({ "ubigeo","rol","pedidos", "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({ "rol","pedidos", "hibernateLazyInitializer", "handler" })
 	private Usuario usuario;
 
 	/**/

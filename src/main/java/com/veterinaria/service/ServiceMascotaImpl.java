@@ -12,6 +12,7 @@ import com.veterinaria.dao.IRazaDao;
 import com.veterinaria.entity.Mascota;
 import com.veterinaria.entity.Raza;
 import com.veterinaria.entity.TipoMascota;
+import com.veterinaria.entity.Usuario;
 
 @Service
 public class ServiceMascotaImpl implements IMascotaService {
@@ -62,6 +63,14 @@ public class ServiceMascotaImpl implements IMascotaService {
 	public List<Raza> ListRazaPorTipoMascota(int idtipo) {
 		// TODO Auto-generated method stub
 		return razaaDao.ListaRazaPorTipoMascota(idtipo);
+	}
+
+	@Override
+	public List<Mascota> ListMascotaPorDniUsuario(String dni) {
+		// TODO Auto-generated method stub
+
+		
+		return mascotaDao.findByUsuario(dni);
 	}
 
 }

@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.veterinaria.entity.Cita;
 import com.veterinaria.entity.DetallePedidoProducto;
 import com.veterinaria.entity.DetallePedidoProductoPK;
 import com.veterinaria.entity.DetallePedidoServicio;
@@ -31,6 +33,9 @@ import com.veterinaria.entity.SeleccionServicio;
 import com.veterinaria.service.IPedidoService;
 import com.veterinaria.service.IProductoService;
 import com.veterinaria.service.IUsuarioService;
+import com.veterinaria.utils.EmailService;
+
+import javassist.NotFoundException;
 
 
 @CrossOrigin(origins = { "http://localhost:4200","https://patazas-62d1c.web.app","https://patazasvet.web.app" })
@@ -46,6 +51,9 @@ public class PedidoController {
 	
 	@Autowired
 	private IPedidoService pedidoService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	//aca se almacenan los productos seleccionados
 	private List<SeleccionProducto> seleccionadosP = new ArrayList<SeleccionProducto>();
@@ -128,7 +136,7 @@ public class PedidoController {
 	
 	
 	
-	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE" })
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
 	//@GetMapping("/usuarios/{id}")
 	@GetMapping("/pedidos/{id}")
 	//@GetMapping("/facturas/{id}")
@@ -146,7 +154,71 @@ public class PedidoController {
 	}
 	
 	
-	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE" })
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
+	@GetMapping("/pedidos/dni/{dni}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<?> listByDni(@PathVariable String dni) {		
+
+		return ResponseEntity.ok(pedidoService.buscarPorDniUsuario(dni));
+	}
+	
+	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA" })
+	@GetMapping("/pedidos/{dni}/{estado}")
+	public ResponseEntity<List<Pedido>> listAllCitasDniAndEstado(@PathVariable String dni, @PathVariable String estado) {
+		return ResponseEntity.ok(pedidoService.findPedidoPorDniAndEstado(dni,estado));
+	}
+	
+	
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
+	//@GetMapping("/usuarios/{id}")
+	@GetMapping("/pedidos/usuario/{id}")
+	//@GetMapping("/facturas/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<?> listPedidosDeUsuario(@PathVariable int id) {
+		
+		List<Pedido> pedido = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		pedido =  pedidoService.findByUsuario(id);
+		
+		response.put("pedido",pedido);
+		
+		return ResponseEntity.ok(pedido);
+	}
+	
+	
+	@Secured({ "ROLE_VETERINARIO", "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_RECEPCIONISTA","ROLE_VENDEDOR" })
+	@PutMapping("/pedidos/estado/{id}")
+	public ResponseEntity<Pedido> update(@RequestBody Pedido obj, @PathVariable int id) throws NotFoundException {
+		// obj.setFecha_reg(new Date())
+		Pedido pedidoActual = pedidoService.findById(id)
+				.orElseThrow(() -> new NotFoundException("Mascota not found for this id :: " + id));
+
+		/*
+		 * Employee employee = employeeRepository.findById(employeeId) .orElseThrow(()
+		 * -> new ResourceNotFoundException("Employee not found for this id :: " +
+		 * employeeId));
+		 */
+
+		pedidoActual.setEstado(obj.getEstado());
+		
+		//String subject, String to, String text
+		
+		/*String body = "<h2>Nro : B-CT-000000"+obj.getIdpedido()+"</h2><br>"+
+						"<h4>Servicio Adquirido : "+ obj +"</h4><br>"+
+						"<h4> Costo : S/." + obj  + "</h4><br>"+
+						"";
+		
+		emailService.sendEmailMessagePagoCita("Cita - Pago realizado",obj.getUsuario().getCorreo(),body);*/
+	
+
+		final Pedido updatedPedio = pedidoService.estadoPedido(pedidoActual);
+		return ResponseEntity.ok(updatedPedio);
+	}
+	
+	
+	
+	@Secured({ "ROLE_VENDEDOR", "ROLE_ADMIN", "ROLE_CLIENTE" })
 	//@GetMapping("/usuarios/{id}")
 	@PostMapping("/pedidos")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -203,6 +275,7 @@ public class PedidoController {
 		//}else if() {
 			pedido.setDetallePedidoServicio(detalleServicio);
 		//}
+			pedido.setEstado("PAGADO");
 		
 		//pedidoService.insertaPedidoProducto(pedido);
 			//pedidoService.insertaPedidoServicio(pedido);

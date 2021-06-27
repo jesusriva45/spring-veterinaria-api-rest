@@ -2,6 +2,8 @@ package com.veterinaria.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.veterinaria.entity.Estado;
+import com.veterinaria.entity.Pedido;
 import com.veterinaria.entity.Tracking;
+import com.veterinaria.service.IPedidoService;
 import com.veterinaria.service.ITrackingService;
 
 import javassist.NotFoundException;
@@ -28,15 +32,18 @@ public class TrackingController {
 	@Autowired
 	private ITrackingService trackingService;
 	
+	@Autowired
+	private IPedidoService pedidoService;
 	
-	@Secured({ "ROLE_ADMIN", "ROLE_CLIENTE" })
+	
+	@Secured({ "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_VETERINARIO","ROLE_VENDEDOR" })
 	@GetMapping("/tracking/{id}")
 	public ResponseEntity<Tracking> findByIdPedido(@PathVariable int id) {
 		
 		return ResponseEntity.ok(trackingService.findByIdPedido(id));
 	}
 	
-	@Secured({ "ROLE_ADMIN", "ROLE_CLIENTE" })
+	@Secured({ "ROLE_ADMIN", "ROLE_CLIENTE","ROLE_VETERINARIO","ROLE_VENDEDOR" })
 	@GetMapping("/tracking/estado")
 	public List<Estado> listEstado() {
 		
@@ -44,7 +51,8 @@ public class TrackingController {
 	}
 	
 	
-	@Secured({ "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN", "ROLE_VETERINARIO","ROLE_VENDEDOR" })
+	@Transactional
 	@PutMapping("/tracking/{id}")
 	public Tracking update(@RequestBody Tracking track,  @PathVariable int id) throws NotFoundException {
 		
@@ -55,10 +63,24 @@ public class TrackingController {
 		trackActual.setEstado(track.getEstado());
 		
 		
+		
+		if(track.getEstado().getIdestado() == 4) {
+			Pedido pedidoTrack = new Pedido();
+			
+			pedidoTrack = pedidoService.findById(track.getPedido().getIdpedido()).
+					orElseThrow(() -> new NotFoundException(""+ id));
+			
+			
+			pedidoTrack.setEstado("FINALIZADO");
+			pedidoService.estadoPedido(pedidoTrack);
+		
+		}
+		
+		
 		return trackingService.update(track);
 	}
 	
-	@Secured({ "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN", "ROLE_VETERINARIO","ROLE_VENDEDOR" })
 	@GetMapping("/tracking")
 	public ResponseEntity<List<Tracking>> listAll() {
 		return ResponseEntity.ok(trackingService.findAll());
